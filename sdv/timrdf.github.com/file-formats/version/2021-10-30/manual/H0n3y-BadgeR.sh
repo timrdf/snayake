@@ -1,5 +1,5 @@
 #!/bin/bash
-#3> <> prov:specializationOf <https://github.com/timrdf/snayake/blob/main/sdv/timrdf.github.com/file-formats/version/2021-10-30/manual/H0n3y-BadgeR.sh> .
+#3> <> prov:specializationOf <https://github.com/timrdf/snayake/blob/main/sdv/timrdf.github.com/file-formats/version/2021-10-30/manual/H0n3y-BadgeR.sh>;
 #3>    prov:wasDerivedFrom <https://github.com/timrdf/csv2rdf4lod-automation/wiki/H0n3y-BadgeR> .
 
 gnaw () {

@@ -13,12 +13,18 @@
 #3>      <https://github.com/timrdf/csv2rdf4lod-automation/wiki/tic-turtle-in-comments>;
 #3> .
 
-if [ -e ../../../git-repos/version/2021-10-28/manual/retrieve.sh -a -e manual/snayake.sdv.webloc \
-                                                                 -a -e manual/snayake.properties ]; then
-   ../../../git-repos/version/2021-10-28/manual/retrieve.sh
-elif [ ! -e /dev/null ]; then
-   # self-documentation for how to use the bootstrap. https://stackoverflow.com/a/5735767
+if [ ! -e /dev/null ]; then # always false; self-documentation for how to use this script as a bootstrap.
+
+   # If you do not have https://github.com/timrdf/snayake.git,
+   # then make sure that you're in a working directory such as:
+   #    timrdf.github.com/snayake/version/<version-id> (default: 2021-11-05)
+   # then run this:
    bash <(curl -s https://raw.githubusercontent.com/timrdf/snayake/main/sdv/timrdf.github.com/snayake/version/2021-11-05/retrieve.sh)
+   # ^^^^^ thx, https://stackoverflow.com/a/5735767
+
+elif [ -e ../../../git-repos/version/2021-10-28/manual/retrieve.sh -a -e manual/snayake.sdv.webloc \
+                                                                   -a -e manual/snayake.properties ]; then
+   ../../../git-repos/version/2021-10-28/manual/retrieve.sh # We do not need to bootstrap.
 else
    mkdir -p manual && s='https://raw.githubusercontent.com/timrdf/snayake/main/sdv/timrdf.github.com'
    parser='../../../file-formats/version/2021-10-30/manual/H0n3y-BadgeR.sh'
@@ -33,13 +39,13 @@ else
    curl $s/git-repos/version/2021-10-28/manual/retrieve.sh > retrieve.sh && chmod +x retrieve.sh
 
    h='https://raw.githubusercontent.com/timrdf/snayake/main/sdv/timrdf.github.com/git-repos/version/2021-10-28/manual/retrieve.sh'
+   echo "$h"  #                \\              ||                //
    runit='no' #                 \\             ||               //
    if [ `md5 -q retrieve.sh` == 'c8d381b70dc09f08fcc1736243974ee1' ]; then
       read -p 'Retrieval digest matches, run it? [y/N] ' runit
    else
       echo && echo
       echo    ' * *   * * ***   * * * * * * * *   *** * **** **'
-      echo    "   $h"
       echo    ' *  **  ** * *   *  **   ***  *  *  ***  **'
       echo    'WARNING:'
       read -p 'WARNING: Retrieval digest - DOES - NOT - match. Run it anyway? [y/N] ' runit

@@ -16,6 +16,9 @@
 if [ -e ../../../git-repos/version/2021-10-28/manual/retrieve.sh -a -e manual/snayake.sdv.webloc \
                                                                  -a -e manual/snayake.properties ]; then
    ../../../git-repos/version/2021-10-28/manual/retrieve.sh
+elif [ ! -e /dev/null ]; then
+   # self-documentation for how to use the bootstrap. https://stackoverflow.com/a/5735767
+   bash <(curl -s https://raw.githubusercontent.com/timrdf/snayake/main/sdv/timrdf.github.com/snayake/version/2021-11-05/retrieve.sh)
 else
    mkdir -p manual && s='https://raw.githubusercontent.com/timrdf/snayake/main/sdv/timrdf.github.com'
    parser='../../../file-formats/version/2021-10-30/manual/H0n3y-BadgeR.sh'

@@ -100,6 +100,7 @@ else
             echo "$dir"
             if [ ! -e $dir ]; then
                git clone "$remote" "$dir"
+               echo "source/$(dirname "$dir")" >> .gitignore
             else
                pushd "$dir" 2>&1 > /dev/null # https://stackoverflow.com/a/23245064 showed the %02i trick to zero-pad.
                   initial_date=$(git log | grep "^Date:" | tail -1 | awk '{num["Jan"]="01";num["Feb"]="02";num["Mar"]="03";num["Apr"]="04";num["May"]="05";num["Jun"]="06";num["Jul"]="07";num["Aug"]="08";num["Sep"]="09";num["Oct"]="10";num["Nov"]="11";num["Dec"]="12";printf("%s-%s-%02i\n",$6,num[$3],$4)}')

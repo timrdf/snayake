@@ -50,15 +50,16 @@ else
    echo -e "#!/bin/bash\n$f/$trigger" > retrieve.sh && chmod +x retrieve.sh
 
    h='https://raw.githubusercontent.com/timrdf/snayake/main/sdv/timrdf.github.com/git-repos/version/2021-10-28/manual/retrieve.sh'
-   echo "$h"  #                \\              ||                //
-   runit='no' #                 \\             ||               //
-   if [ `md5 -q $f/$trigger` == 'a2125778d330b074e1cce21a284bdb71' ]; then
+   echo "$h"  #      \\         ||           //
+   runit='no' #       \\        ||          //
+   verified='a2125778d330b074e1cce21a284bdb71'
+   if [ `md5 -q $f/$trigger` == $verified ]; then
       read -p 'Retrieval digest matches, run it? [y/N] ' runit
    else
       echo && echo
       echo    ' * *   * * ***   * * * * * * * *   *** * **** **'
       echo    ' *  **  ** * *   *  **   ***  *  *  ***  **'
-      echo    "$f/$trigger $(md5 -q $f/$trigger)"
+      echo    "$f/$trigger is $(md5 -q $f/$trigger) but expected $verified"
       echo    'WARNING:'
       read -p 'WARNING: Retrieval digest - DOES - NOT - match. Run it anyway? [y/N] ' runit
       echo

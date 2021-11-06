@@ -37,7 +37,7 @@ fi
 version_id=$(basename `pwd`)
 
 samp='manual' # Manual is used b/c SUBJECTs are predominently direct-asserted.
-mkdir -p $samp && if find $samp -name "*.sdv.webloc" -exec false {} +; then # <= https://stackoverflow.com/a/41925756
+mkdir -p $samp && if find $samp -depth 1 -name "*.sdv.webloc" -exec false {} +; then # <= https://stackoverflow.com/a/41925756
    # Did not find any target repositories defined; define one to bootstrap this SDV.
 
    # TODO: search+replace 'repository' with the type of thing that you're processing (e.g. user, repository, device, etc.).
@@ -77,7 +77,7 @@ mkdir -p $samp && if find $samp -name "*.sdv.webloc" -exec false {} +; then # <=
       fi
    fi
 else
-   for repository in `find $samp -name "*.sdv.webloc"`; do
+   for repository in `find $samp -depth 1 -name "*.sdv.webloc"`; do
       # Found a repository according to the <alias>.{sdv.webloc, properties} naming conventions.
       alias=${repository%.sdv.webloc} && properties="$alias.properties"
       splash "$properties" # This calls the https://github.com/timrdf/csv2rdf4lod-automation/wiki/H0n3y-BadgeR parser.

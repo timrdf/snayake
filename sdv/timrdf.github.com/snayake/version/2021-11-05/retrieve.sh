@@ -13,35 +13,46 @@
 #3>      <https://github.com/timrdf/csv2rdf4lod-automation/wiki/tic-turtle-in-comments>;
 #3> .
 
+f='../../..' # as in (local) 'file' as opposed to 'http'.
 if [ ! -e /dev/null ]; then # always false; self-documentation for how to use this script as a bootstrap.
 
    # If you do not have https://github.com/timrdf/snayake.git,
    # then make sure that you're in a working directory such as:
    #    timrdf.github.com/snayake/version/<version-id> (default: 2021-11-05)
-   # then run this:
+   # then run this:                                                   $h=$f/
    bash <(curl -s https://raw.githubusercontent.com/timrdf/snayake/main/sdv/timrdf.github.com/snayake/version/2021-11-05/retrieve.sh)
    # ^^^^^ thx, https://stackoverflow.com/a/5735767
 
-elif [ -e ../../../git-repos/version/2021-10-28/manual/retrieve.sh -a -e manual/snayake.sdv.webloc \
-                                                                   -a -e manual/snayake.properties ]; then
-   ../../../git-repos/version/2021-10-28/manual/retrieve.sh # We do not need to bootstrap.
+elif [ -e $f/git-repos/version/2021-10-28/manual/retrieve.sh -a -e manual/snayake.sdv.webloc \
+                                                             -a -e manual/snayake.properties ]; then
+   $f/git-repos/version/2021-10-28/manual/retrieve.sh # We do not need to bootstrap.
 else
-   mkdir -p manual && s='https://raw.githubusercontent.com/timrdf/snayake/main/sdv/timrdf.github.com'
-   parser='../../../file-formats/version/2021-10-30/manual/H0n3y-BadgeR.sh'
-   if [ ! -e $parser ]; then
-      mkdir -p $(dirname $parser)
-      echo $s/file-formats/version/2021-10-30/manual/H0n3y-BadgeR.sh
-      curl $s/file-formats/version/2021-10-30/manual/H0n3y-BadgeR.sh > $parser
-   fi
+   mkdir -p manual && h='https://raw.githubusercontent.com/timrdf/snayake/main/sdv/timrdf.github.com' # as in 'http' as opposed to 'f'.
+  #parser="$f/file-formats/version/2021-10-30/manual/H0n3y-BadgeR.sh"
+  #if [ ! -e $parser ]; then
+  #   mkdir -p $(dirname $parser)
+  #   echo $h/file-formats/version/2021-10-30/manual/H0n3y-BadgeR.sh
+  #   curl $h/file-formats/version/2021-10-30/manual/H0n3y-BadgeR.sh > $parser
+  #fi
+   trigger='git-repos/version/2021-10-28/manual/retrieve.sh'
+   for dependency in file-formats/version/2021-10-30/manual/H0n3y-BadgeR.sh \
+                     $trigger; do
+      if [ ! -e $f/$dependency ]; then
+         mkdir -p $(dirname $f/$dependency)
+         echo $h/$dependency
+         curl $h/$dependency > $f/$dependency && chmod +x $f/$dependency
+      fi
+   done
 
-   curl $s/snayake/version/2021-11-05/manual/snayake.sdv.webloc > manual/snayake.sdv.webloc
-   curl $s/snayake/version/2021-11-05/manual/snayake.properties > manual/snayake.properties
-   curl $s/git-repos/version/2021-10-28/manual/retrieve.sh > retrieve.sh && chmod +x retrieve.sh
+   curl $h/snayake/version/2021-11-05/manual/snayake.sdv.webloc > manual/snayake.sdv.webloc
+   curl $h/snayake/version/2021-11-05/manual/snayake.properties > manual/snayake.properties
+  #curl $h/git-repos/version/2021-10-28/manual/retrieve.sh > retrieve.sh && chmod +x retrieve.sh
+   echo -e "#!/bin/bash\n$f/$trigger" > retrieve.sh && chmod +x retrieve.sh
 
    h='https://raw.githubusercontent.com/timrdf/snayake/main/sdv/timrdf.github.com/git-repos/version/2021-10-28/manual/retrieve.sh'
    echo "$h"  #                \\              ||                //
    runit='no' #                 \\             ||               //
-   if [ `md5 -q retrieve.sh` == 'c8d381b70dc09f08fcc1736243974ee1' ]; then
+   if [ `md5 -q $f/$trigger` == 'c8d381b70dc09f08fcc1736243974ee1' ]; then
       read -p 'Retrieval digest matches, run it? [y/N] ' runit
    else
       echo && echo

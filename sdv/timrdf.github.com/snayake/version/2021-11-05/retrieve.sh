@@ -58,7 +58,7 @@ else
       echo && echo
       echo    ' * *   * * ***   * * * * * * * *   *** * **** **'
       echo    ' *  **  ** * *   *  **   ***  *  *  ***  **'
-      echo    "$f/$trigger"
+      echo    "$f/$trigger $(md5 -q $f/$trigger)"
       echo    'WARNING:'
       read -p 'WARNING: Retrieval digest - DOES - NOT - match. Run it anyway? [y/N] ' runit
       echo

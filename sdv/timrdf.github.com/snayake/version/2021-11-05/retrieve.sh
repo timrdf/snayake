@@ -52,12 +52,13 @@ else
    h='https://raw.githubusercontent.com/timrdf/snayake/main/sdv/timrdf.github.com/git-repos/version/2021-10-28/manual/retrieve.sh'
    echo "$h"  #                \\              ||                //
    runit='no' #                 \\             ||               //
-   if [ `md5 -q $f/$trigger` == 'c8d381b70dc09f08fcc1736243974ee1' ]; then
+   if [ `md5 -q $f/$trigger` == '20c770b40adc24a4d229b98d8620932f' ]; then
       read -p 'Retrieval digest matches, run it? [y/N] ' runit
    else
       echo && echo
       echo    ' * *   * * ***   * * * * * * * *   *** * **** **'
       echo    ' *  **  ** * *   *  **   ***  *  *  ***  **'
+      echo    "$f/$trigger"
       echo    'WARNING:'
       read -p 'WARNING: Retrieval digest - DOES - NOT - match. Run it anyway? [y/N] ' runit
       echo
